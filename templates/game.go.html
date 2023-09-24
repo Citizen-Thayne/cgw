@@ -1,3 +1,7 @@
 <div class="grid-container">
-
+  {{range .cells}}
+  {{range .}}
+  <div class="cell {{if .}}alive{{else}}dead{{end}}"></div>
+  {{end}}
+  {{end}}
 </div>

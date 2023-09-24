@@ -57,25 +57,12 @@ func main() {
 	r := gin.Default()
 	r.StaticFile("/", "index.html")
 	r.StaticFile("/styles.css", "styles.css")
+	r.LoadHTMLGlob("templates/*")
+
+	game := NewGame(3, 3)
 
 	r.GET("/api/game", func(ctx *gin.Context) {
-		ctx.HTML(http.StatusOK, "game.go.html", gin.H{})
+		ctx.HTML(http.StatusOK, "game.go.html", gin.H{"cells": game.cells} )
 	})
 	r.Run(":3333")
-	// game := NewGame(3, 3)
-	// http.HandleFunc("/", handleStatic("index.html"))
-	// http.HandleFunc("/styles.css", handleStatic("styles.css"))
-	// http.HandleFunc("/api/game", func(w http.ResponseWriter, r *http.Request) {
-	// 	render(&game, w)
-	// })
-	// http.HandleFunc("/api/game/cell", func(w http.ResponseWriter, r *http.Request) {
-	// 	render(&game, w)
-	// })
-	// err := http.ListenAndServe(":3333", nil)
-	// if errors.Is(err, http.ErrServerClosed) {
-	// 	fmt.Printf("server closed\n")
-	// } else if err != nil {
-	// 	fmt.Printf("error starting server: %s\n", err)
-	// 	os.Exit(1)
-	// }
 }
