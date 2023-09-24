@@ -6,26 +6,46 @@ import (
 	"io"
 	"net/http"
 	"os"
-	"strconv"
 )
 
-var counter = 0
-
-func incr(w http.ResponseWriter, r *http.Request) {
-	counter = counter + 1
-	io.WriteString(w, strconv.Itoa(counter))
+type Game struct {
+	numCols int
+	numRows int
+	cells [][]bool
 }
 
-func getCounter(w http.ResponseWriter, r *http.Request) {
-	io.WriteString(w, strconv.Itoa(counter))
+func render(game *Game, w io.StringWriter) {
+
+}
+
+
+
+func handleStatic(path string) func (w http.ResponseWriter, r *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, path)
+	}
+}
+
+func NewGame(numCols int, numRows int) {
+	var cells [][]int
+	for i := 0; i < numRows; i++ {
+		row := make([]int, numCols)
+		cells = append(cells, row)
+	}
+	return Game {
+		numCols: numCols,
+		numRows: numRows,
+		cells: cells
+	}
 }
 
 func main() {
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		http.ServeFile(w, r, "index.html")
+	game := NewGame(3, 3)
+	http.HandleFunc("/", handleStatic("index.html"))
+	http.HandleFunc("/styles.css", handleStatic("styles.css"))
+	http.HandleFunc("/api/game", func(w http.ResponseWriter) {
+		render
 	})
-	http.HandleFunc("/api/counter/incr", incr)
-	http.HandleFunc("/api/counter", getCounter)
 	err := http.ListenAndServe(":3333", nil)
 	if errors.Is(err, http.ErrServerClosed) {
 		fmt.Printf("server closed\n")
