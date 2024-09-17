@@ -11,27 +11,24 @@ func TestNewCursor(t *testing.T) {
 	b.SetCell(1, 0, true)
 	c := NewCursor(b)
 
-	var value, ok bool
-
-	value, ok = c.Next()
+	value, final := c.Value()
 	assert.Equal(t, value, false)
-	assert.Equal(t, ok, true)
+	assert.Equal(t, final, false)
 
-	value, ok = c.Next()
+	c.Next()
+	value, final = c.Value()
 	assert.Equal(t, value, true)
-	assert.Equal(t, ok, true)
+	assert.Equal(t, final, false)
 
-	value, ok = c.Next()
+	c.Next()
+	value, final = c.Value()
 	assert.Equal(t, value, false)
-	assert.Equal(t, ok, true)
+	assert.Equal(t, final, false)
 
-	value, ok = c.Next()
+	c.Next()
+	value, final = c.Value()
 	assert.Equal(t, value, false)
-	assert.Equal(t, ok, true)
-
-	value, ok = c.Next()
-	assert.Equal(t, value, false)
-	assert.Equal(t, ok, false)
+	assert.Equal(t, final, true)
 }
 
 func TestCursorSet(t *testing.T) {

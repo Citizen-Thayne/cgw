@@ -5,30 +5,38 @@ import (
 )
 
 type Board struct {
-	rows [][]bool
+	Height int
+	Width  int
+	Cells  []bool
 }
 
 func NewBoard(numCols int, numRows int) *Board {
 	board := Board{
-		rows: make([][]bool, numRows),
-	}
-	for i := 0; i < numRows; i++ {
-		row := make([]bool, numCols)
-		for j := range row {
-			row[j] = false
-		}
-		board.rows[i] = row
+		Height: numRows,
+		Width:  numCols,
+		Cells:  make([]bool, numCols*numRows),
 	}
 
+	for i := range board.Cells {
+		board.Cells[i] = false
+	}
 	return &board
 }
 
 func (b *Board) GetCell(x, y int) bool {
-	return b.rows[y][x]
+	return b.Cells[y*b.Width+x]
 }
 
 func (b *Board) SetCell(x, y int, value bool) {
-	b.rows[y][x] = value
+	b.Cells[y*b.Width+x] = value
+}
+
+func (b *Board) SetCellByIndex(index int, value bool) {
+	b.Cells[index] = value
+}
+
+func (b *Board) GetCellByIndex(index int, value bool) bool {
+	return b.Cells[index]
 }
 
 func (b *Board) GetAdjacent(x, y int) int {
@@ -40,10 +48,10 @@ func (b *Board) GetAdjacent(x, y int) int {
 				continue
 			}
 			// Skip out of bounds cells
-			if x+i < 0 || x+i >= len(b.rows[0]) {
+			if x+i < 0 || x+i >= b.Width {
 				continue
 			}
-			if y+j < 0 || y+j >= len(b.rows) {
+			if y+j < 0 || y+j >= b.Height {
 				continue
 			}
 
@@ -56,20 +64,20 @@ func (b *Board) GetAdjacent(x, y int) int {
 }
 
 func (b *Board) EmptyClone() *Board {
-	return NewBoard(len(b.rows[0]), len(b.rows))
+	return NewBoard(b.Width, b.Height)
 }
 
 func (b *Board) String() string {
 	var sb strings.Builder
-	for _, row := range b.rows {
-		for _, cell := range row {
-			if cell {
-				sb.WriteRune('0')
-			} else {
-				sb.WriteRune('*')
-			}
+	for i, cell := range b.Cells {
+		if cell {
+			sb.WriteRune('0')
+		} else {
+			sb.WriteRune('*')
 		}
-		sb.WriteRune('\n')
+		if (i+1)%b.Width == 0 {
+			sb.WriteRune('\n')
+		}
 	}
 	return sb.String()
 }

@@ -1,0 +1,40 @@
+# .air.toml - Air configuration for a Golang server
+
+# Command to build the app
+cmd = "go build -o ./tmp/main ."
+
+# Command to run the app after it's built
+bin = "./tmp/main"
+
+# Working directory (default: ".")
+root = "."
+
+# Path to store temporary files like binaries
+tmp_dir = "tmp"
+
+# Log format, default is pretty
+log_format = "pretty"
+
+# Patterns for watching files and folders
+include_ext = ["go", "tpl", "tmpl", "html"]
+
+# Patterns to exclude from watching
+exclude_dir = ["tmp"]
+
+# Exclude test files (e.g., *_test.go)
+exclude_file = ["*_test.go"]
+
+# Delay before reloading after a change (in milliseconds)
+watch_delay = 500
+
+# Add environment variables here
+env = ["PORT=8080"]
+
+# Rebuild on startup
+build_on_start = true
+
+# Clean up the temporary files on exit
+kill_signal = "SIGTERM"
+
+# Custom command to test if the server is ready (optional)
+kill_url = "http://localhost:8080/health"

@@ -1,9 +1,11 @@
 package main
 
 import (
-	"fmt"
+	"cgw/pkg/app"
 )
 
 func main() {
-	fmt.Println("Hello, Go Modules!")
+	router := app.CreateRouter()
+
+	router.Run(":8080")
 }

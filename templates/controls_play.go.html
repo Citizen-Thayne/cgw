@@ -1,0 +1,5 @@
+{{ $iconClass := "fa-play" }} {{$postUrl := "/api/controls/play"}} {{ if
+.isPlaying }} {{$iconClass = "fa-pause"}} {{$postUrl = "/api/controls/pause"}}
+{{end}}
+
+<i class="fas {{$iconClass}}" hx-post="{{$postUrl}}" hx-swap="outerHTML"></i>

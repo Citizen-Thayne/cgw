@@ -1,7 +1,22 @@
-<div class="grid-container">
-  {{range .cells}}
-  {{range .}}
-  <div class="cell {{if .}}alive{{else}}dead{{end}}"></div>
-  {{end}}
-  {{end}}
+<div class="game">
+    <div
+        class="grid-container"
+        style="grid-template-columns: repeat( {{.game.Board.Width}} , 1fr);"
+    >
+        {{range $index, $value := .game.Board.Cells}} {{ if $value}}
+        <button
+            class="cell alive"
+            hx-trigger="click"
+            hx-post="/api/cell/kill/{{$index}}"
+            hx-swap="outerHTML"
+        ></button>
+        {{ else }}
+        <button
+            class="cell dead"
+            hx-trigger="click"
+            hx-post="/api/cell/birth/{{$index}}"
+            hx-swap="outerHTML"
+        ></button>
+        {{end}} {{end}}
+    </div>
 </div>

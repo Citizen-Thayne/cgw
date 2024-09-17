@@ -11,11 +11,11 @@ func TestNewGame(t *testing.T) {
 	b := board.NewBoard(10, 10)
 	game := NewGame(b)
 
-	assert.ObjectsAreEqual(b, game.board)
+	assert.ObjectsAreEqual(b, game.Board)
 }
 
 func assertGameEqual(t *testing.T, expected string, actual *Game) {
-	actualStr := actual.board.String()
+	actualStr := actual.Board.String()
 
 	assert.Equal(t, expected, actualStr, "Expected %v, got %v", expected, actualStr)
 }
@@ -33,20 +33,20 @@ func TestGameNextGeneration(t *testing.T) {
 	game.NextGeneration()
 
 	// No change
-	assert.Equal(t, emptyStr, game.board.String())
+	assert.Equal(t, emptyStr, game.Board.String())
 
 	// Test 1 cell
 	game.Reset()
-	game.board.SetCell(1, 1, true)
+	game.Board.SetCell(1, 1, true)
 	game.NextGeneration()
-	assert.Equal(t, emptyStr, game.board.String())
+	assert.Equal(t, emptyStr, game.Board.String())
 
 	// Test 2 adjancent cells
 	game.Reset()
-	game.board.SetCell(1, 1, true)
-	game.board.SetCell(1, 2, true)
+	game.Board.SetCell(1, 1, true)
+	game.Board.SetCell(1, 2, true)
 	game.NextGeneration()
-	assert.Equal(t, emptyStr, game.board.String())
+	assert.Equal(t, emptyStr, game.Board.String())
 
 	// Test corner shape
 	start := "****\n"

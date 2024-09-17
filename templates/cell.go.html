@@ -1,0 +1,15 @@
+{{if .life}}
+<button
+    class="cell alive"
+    hx-trigger="click"
+    hx-post="/api/cell/kill/{{.index}}"
+    hx-swap="outerHTML"
+></button>
+{{else}}
+<button
+    class="cell dead"
+    hx-trigger="click"
+    hx-post="/api/cell/birth/{{.index}}"
+    hx-swap="outerHTML"
+></button>
+{{end}}

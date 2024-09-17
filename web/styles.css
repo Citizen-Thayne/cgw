@@ -1,0 +1,37 @@
+.game {
+    display: flex;
+    justify-content: center;
+}
+
+.grid-container {
+    display: inline-grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    background-color: black;
+    gap: 0.1rem;
+}
+
+.cell {
+    height: 3rem;
+    width: 3rem;
+    border: 0.1rem solid black;
+}
+
+.cell.alive {
+    background-color: black;
+}
+
+.cell.dead {
+    background-color: white;
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.controls > .fas {
+    font-size: 2rem;
+    cursor: pointer;
+}

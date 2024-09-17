@@ -2,34 +2,47 @@ package board
 
 type Cursor struct {
 	board *Board
-	x, y  int
+	i     int
 }
 
 func NewCursor(board *Board) *Cursor {
 	return &Cursor{
 		board: board,
-		x:     0,
-		y:     0,
+		i:     0,
 	}
 }
 
-func (c *Cursor) Next() (bool, bool) {
-	if c.y >= len(c.board.rows) {
-		return false, false
+func (c *Cursor) Reset() {
+	c.i = 0
+}
+
+func (c *Cursor) Value() (bool, bool) {
+	isFinal := c.i == len(c.board.Cells)-1
+	return c.board.Cells[c.i], isFinal
+}
+
+func (c *Cursor) Next() {
+	c.i++
+	if c.i >= len(c.board.Cells) {
+		c.i = len(c.board.Cells) - 1
 	}
-	value := c.board.rows[c.y][c.x]
-	c.x++
-	if c.x >= len(c.board.rows[0]) {
-		c.x = 0
-		c.y++
-	}
-	return value, true
 }
 
 func (c *Cursor) Set(value bool) {
-	c.board.rows[c.y][c.x] = value
+	c.board.Cells[c.i] = value
 }
 
 func (c *Cursor) Adjacent() int {
-	return c.board.GetAdjacent(c.x, c.y)
+	return c.board.GetAdjacent(
+		c.X(),
+		c.Y(),
+	)
+}
+
+func (c *Cursor) X() int {
+	return c.i % c.board.Width
+}
+
+func (c *Cursor) Y() int {
+	return c.i / c.board.Width
 }
