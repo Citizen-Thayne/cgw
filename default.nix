@@ -5,6 +5,5 @@ pkgs.mkShell {
     pkgs.go
     pkgs.air
     pkgs.watchexec
-    pkgs.flyio
   ];
 }

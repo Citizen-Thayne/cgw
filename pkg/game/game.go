@@ -24,7 +24,6 @@ func NewGame(board *board.Board) *Game {
 		for {
 			select {
 			case <-ticker.C:
-				fmt.Println("Play:", game.IsPlaying)
 				if game.IsPlaying {
 					game.NextGeneration()
 				}
