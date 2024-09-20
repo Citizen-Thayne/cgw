@@ -1,5 +1,4 @@
 <head>
-    <script src="https://unpkg.com/htmx.org@2.0.2"></script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" type="text/css" href="styles.css" />
@@ -8,15 +7,16 @@
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
+
+    <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.12/dist/ext/sse.js"></script>
 </head>
 
-<body>
+<body hx-ext="sse" sse-connect="/api/events">
     <div class="controls">
-        <i
-            hx-trigger="load"
-            hx-get="/api/controls/play"
-            hx-swap="outerHTML"
-        ></i>
+        <div sse-swap="PlayButton" hx-trigger="load" hx-get="/api/controls/play">
+        </div>
     </div>
-    <div hx-trigger="load, every 1s" hx-get="/api/game"></div>
+    <div hx-trigger="load" hx-get="/api/game" sse-swap="NewGeneration">
+    </div>
 </body>

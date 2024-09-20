@@ -71,8 +71,8 @@ func TestParseBoardString(t *testing.T) {
 	boardString += "**0\n"
 	board := ParseBoardString(boardString)
 
-	assert.Equal(t, 3, board.Width)
-	assert.Equal(t, 3, board.Height)
+	assert.Equal(t, 3, board.Width())
+	assert.Equal(t, 3, board.Height())
 	assert.True(t, board.GetCell(0, 0))
 	assert.True(t, board.GetCell(1, 1))
 	assert.True(t, board.GetCell(2, 2))

@@ -31,7 +31,7 @@
     padding: 1rem;
 }
 
-.controls > .fas {
+.control {
     font-size: 2rem;
     cursor: pointer;
 }

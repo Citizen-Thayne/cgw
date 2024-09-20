@@ -2,22 +2,24 @@ package game
 
 import (
 	"cgw/pkg/board"
-	"fmt"
 	"time"
 )
 
 type Game struct {
-	Board     *board.Board
-	IsPlaying bool
-	playChan  chan bool
+	Board           board.Board
+	IsPlaying       bool
+	playChan        chan bool
+	eventDispatcher EventDispatcher
 }
 
-func NewGame(board *board.Board) *Game {
-	ticker := time.NewTicker(2 * time.Second)
+func NewGame(board board.Board, e EventDispatcher) *Game {
+	ticker := time.NewTicker(time.Second)
+
 	game := &Game{
-		Board:     board,
-		playChan:  make(chan bool),
-		IsPlaying: false,
+		Board:           board,
+		playChan:        make(chan bool),
+		IsPlaying:       false,
+		eventDispatcher: e,
 	}
 
 	go func() {
@@ -61,6 +63,7 @@ func (g *Game) NextGeneration() {
 		currCursor.Next()
 	}
 	g.Board = nextBoard
+	g.eventDispatcher.Dispatch(NewGeneration)
 }
 
 func (g *Game) Reset() {
@@ -70,9 +73,15 @@ func (g *Game) Reset() {
 func (g *Game) Play() {
 	g.playChan <- true
 	g.IsPlaying = true
+	g.eventDispatcher.Dispatch(GameResumed)
 }
 
 func (g *Game) Pause() {
 	g.playChan <- false
 	g.IsPlaying = false
+	g.eventDispatcher.Dispatch(GamePaused)
+}
+
+func (g *Game) Subscribe(c chan int) {
+	g.eventDispatcher.Subscribe(c)
 }

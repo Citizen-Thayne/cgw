@@ -15,9 +15,11 @@ var once sync.Once
 
 func GetInstance() *GameSingleton {
 	once.Do(func() {
-		board := board.NewBoard(10, 10)
 		instance = &GameSingleton{
-			Game: game.NewGame(board),
+			Game: game.NewGame(
+				board.NewBoard(10, 10),
+				game.NewEventDispatcher(),
+			),
 		}
 	})
 	return instance

@@ -1,5 +1,9 @@
-{{ $iconClass := "fa-play" }} {{$postUrl := "/api/controls/play"}} {{ if
-.isPlaying }} {{$iconClass = "fa-pause"}} {{$postUrl = "/api/controls/pause"}}
+{{ $iconClass := "fa-play" }}
+{{$postUrl := "/api/controls/play"}}
+
+{{ if .isPlaying }}
+{{$iconClass = "fa-pause"}}
+{{$postUrl = "/api/controls/pause"}}
 {{end}}
 
-<i class="fas {{$iconClass}}" hx-post="{{$postUrl}}" hx-swap="outerHTML"></i>
+<i class="fas control {{$iconClass}}" hx-post="{{$postUrl}}" hx-swap="outerHTML"></i>

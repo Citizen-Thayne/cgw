@@ -15,6 +15,8 @@ func BindRoutes(r *gin.Engine) {
 	api.GET("/controls/play", playButton)
 	api.POST("/controls/play", playGame)
 	api.POST("/controls/pause", pauseGame)
+
+	api.GET("/events", eventStream)
 }
 
 func getGame(c *gin.Context) {
